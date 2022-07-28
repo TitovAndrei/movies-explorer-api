@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { dbConnect } = require('./utils/dbConfig');
 const indexRouter = require('./routes/Index');
 
 require('dotenv').config();
@@ -27,13 +26,17 @@ const options = {
   credentials: true,
 };
 
-const { PORT = 3000 } = process.env;
+const {
+  PORT = 3000, NODE_ENV, PRODUCTION_DB_URL, DEVELOP_DB_URL,
+} = process.env;
 
 const app = express();
 
 app.use('*', cors(options));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : DEVELOP_DB_URL;
 
 mongoose.connect(dbConnect, {
   useNewUrlParser: true,
