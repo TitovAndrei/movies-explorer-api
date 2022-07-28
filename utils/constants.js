@@ -1,0 +1,7 @@
+const MONGO_DUPLICATE_ERROR_CODE = 11000;
+const SALT_ROUNDS = 10;
+
+module.exports = {
+  MONGO_DUPLICATE_ERROR_CODE,
+  SALT_ROUNDS,
+};
