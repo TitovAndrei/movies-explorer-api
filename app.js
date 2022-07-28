@@ -14,6 +14,8 @@ const options = {
   origin: {
     origin: [
       'http://localhost:3000',
+      'https://titov.nomoredomains.xyz',
+      'titov.nomoredomains.xyz',
       'https://praktikum.tk',
       'http://praktikum.tk',
       'localhost:3000',
