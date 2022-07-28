@@ -4,7 +4,7 @@ const ValidationError = require('../middlewares/errors/ValidationError');
 const BadPasswordError = require('../middlewares/errors/BadPasswordError');
 
 module.exports.getMovies = (req, res, next) => {
-  Movies.find({})
+  Movies.find({ owner: req.user._id })
     .then((movies) => res.status(200).send(movies))
     .catch(next);
 };
