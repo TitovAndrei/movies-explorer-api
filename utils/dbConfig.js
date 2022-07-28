@@ -1,7 +1,5 @@
-const { NODE_ENV } = process.env;
-const dbDefaultConnect = 'mongodb://localhost:27017/bitfilmsdb';
-const dbProductionConnect = 'mongodb://127.0.0.1:27017/bitfilmsdb';
+const { NODE_ENV, PRODUCTION_DB_URL, DEVELOP_DB_URL } = process.env;
 
-const dbConnect = NODE_ENV === 'production' ? dbProductionConnect : dbDefaultConnect;
+const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : DEVELOP_DB_URL;
 
 module.exports = { dbConnect };
