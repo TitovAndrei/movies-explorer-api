@@ -27,7 +27,7 @@ const options = {
 };
 
 const {
-  PORT = 3000, NODE_ENV, PRODUCTION_DB_URL, DEVELOP_DB_URL,
+  PORT = process.env.PORT || 3000, NODE_ENV, PRODUCTION_DB_URL,
 } = process.env;
 
 const app = express();
@@ -36,7 +36,7 @@ app.use('*', cors(options));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : DEVELOP_DB_URL;
+const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : 'mongodb://localhost:27017/bitfilmsdb';
 
 mongoose.connect(dbConnect, {
   useNewUrlParser: true,
