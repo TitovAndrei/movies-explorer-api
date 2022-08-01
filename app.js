@@ -36,7 +36,7 @@ app.use('*', cors(options));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : 'mongodb://localhost:27017/bitfilmsdb';
+const dbConnect = NODE_ENV === 'production' ? PRODUCTION_DB_URL : 'mongodb://localhost:27017/moviesdb';
 
 mongoose.connect(dbConnect, {
   useNewUrlParser: true,

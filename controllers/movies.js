@@ -1,11 +1,11 @@
 const Movies = require('../models/movies');
 const NoteFoundsError = require('../middlewares/errors/NoteFoundsError');
 const ValidationError = require('../middlewares/errors/ValidationError');
-const BadPasswordError = require('../middlewares/errors/BadPasswordError');
+const ForbiddenError = require('../middlewares/errors/ForbiddenError');
 
 module.exports.getMovies = (req, res, next) => {
   Movies.find({ owner: req.user._id })
-    .then((movies) => res.status(200).send(movies))
+    .then((movies) => res.send(movies))
     .catch(next);
 };
 
@@ -37,7 +37,7 @@ module.exports.saveMovies = (req, res, next) => {
     nameEN,
     owner: req.user._id,
   })
-    .then((movie) => res.status(201).send(movie))
+    .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Некорректные данные при создании карточки'));
@@ -49,24 +49,24 @@ module.exports.saveMovies = (req, res, next) => {
 
 module.exports.deleteMovies = (req, res, next) => {
   const cardRemove = () => {
-    Movies.findByIdAndDelete(req.params.movieId)
+    Movies.findByIdAndDelete(req.params._id)
       .then((movie) => {
         if (!movie) {
           throw new NoteFoundsError('Карточка с указанным _id не найдена.');
         }
-        res.status(200).send({ message: 'Карточка удалена' });
+        res.send({ message: 'Карточка удалена' });
       })
       .catch(next);
   };
 
-  Movies.findById(req.params.movieId)
+  Movies.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
         throw new NoteFoundsError('Передан несуществующий _id карточки.');
       } if (req.user._id === movie.owner.toString()) {
         cardRemove();
       } else {
-        throw new BadPasswordError('Карточка не содержит указанный идентификатор пользователя.');
+        throw new ForbiddenError('Карточка не содержит указанный идентификатор пользователя.');
       }
     })
     .catch(next);
