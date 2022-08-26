@@ -21,6 +21,7 @@ router.post(
       image: Joi.string().custom(isValidationUrl).required(),
       trailerLink: Joi.string().custom(isValidationUrl).required(),
       thumbnail: Joi.string().custom(isValidationUrl).required(),
+      owner: Joi.string().required(),
       movieId: Joi.number().integer().positive().required(),
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
@@ -30,10 +31,10 @@ router.post(
 );
 
 router.delete(
-  '/:_id',
+  '/:movieId',
   celebrate({
     params: Joi.object().keys({
-      _id: Joi.string().length(24).hex().required(),
+      movieId: Joi.number().integer().positive().required(),
     }),
   }),
   deleteMovies,
