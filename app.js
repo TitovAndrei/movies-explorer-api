@@ -23,7 +23,7 @@ const options = {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   },
-  credentials: true,
+  credentials: false,
 };
 
 const {
