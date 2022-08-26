@@ -49,7 +49,7 @@ module.exports.saveMovies = (req, res, next) => {
 
 module.exports.deleteMovies = (req, res, next) => {
   const cardRemove = () => {
-    Movies.findByIdAndDelete(req.params._id)
+    Movies.findOneAndDelete({ movieId: req.params.movieId })
       .then((movie) => {
         if (!movie) {
           throw new NoteFoundsError('Карточка с указанным _id не найдена.');
@@ -59,14 +59,18 @@ module.exports.deleteMovies = (req, res, next) => {
       .catch(next);
   };
 
-  Movies.findById(req.params._id)
+  Movies.findOne({ movieId: req.params.movieId })
     .then((movie) => {
       if (!movie) {
         throw new NoteFoundsError('Передан несуществующий _id карточки.');
-      } if (req.user._id === movie.owner.toString()) {
-        cardRemove();
+      }
+      if (req.user._id === movie.owner.toString()) {
+        cardRemove(movie.movieId);
+        console.log('Ура!');
       } else {
-        throw new ForbiddenError('Карточка не содержит указанный идентификатор пользователя.');
+        throw new ForbiddenError(
+          'Карточка не содержит указанный идентификатор пользователя.',
+        );
       }
     })
     .catch(next);
