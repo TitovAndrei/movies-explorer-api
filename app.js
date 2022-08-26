@@ -27,7 +27,7 @@ const options = {
 };
 
 const {
-  PORT = process.env.PORT || 3001, NODE_ENV, PRODUCTION_DB_URL,
+  PORT = process.env.PORT || 3000, NODE_ENV, PRODUCTION_DB_URL,
 } = process.env;
 
 const app = express();
