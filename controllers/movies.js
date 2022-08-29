@@ -18,10 +18,11 @@ module.exports.saveMovies = (req, res, next) => {
     description,
     image,
     trailerLink,
+    thumbnail,
+    owner,
+    movieId,
     nameRU,
     nameEN,
-    thumbnail,
-    movieId,
   } = req.body;
   Movies.create({
     country,
@@ -32,10 +33,10 @@ module.exports.saveMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    owner,
     movieId,
     nameRU,
     nameEN,
-    owner: req.user._id,
   })
     .then((movie) => res.send(movie))
     .catch((err) => {
@@ -66,7 +67,6 @@ module.exports.deleteMovies = (req, res, next) => {
       }
       if (req.user._id === movie.owner.toString()) {
         cardRemove(movie.movieId);
-        console.log('Ура!');
       } else {
         throw new ForbiddenError(
           'Карточка не содержит указанный идентификатор пользователя.',
