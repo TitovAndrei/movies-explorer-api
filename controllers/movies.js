@@ -32,10 +32,10 @@ module.exports.saveMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    owner: req.user._id,
     movieId,
     nameRU,
     nameEN,
+    owner: req.user._id,
   })
     .then((movie) => res.send(movie))
     .catch((err) => {
