@@ -30,10 +30,10 @@ router.post(
 );
 
 router.delete(
-  '/:movieId',
+  '/:_id',
   celebrate({
     params: Joi.object().keys({
-      movieId: Joi.number().integer().positive().required(),
+      _id: Joi.string().length(24).hex().required(),
     }),
   }),
   deleteMovies,
